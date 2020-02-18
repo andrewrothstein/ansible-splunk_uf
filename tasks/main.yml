@@ -1,0 +1,46 @@
+---
+- name: look for install...
+  become: yes
+  stat:
+    path: '{{ splunk_uf_install_dir }}'
+  changed_when: False
+  register: splunk_uf_binary
+- when: not splunk_uf_binary.stat.exists
+  block:
+    - name: download...
+      become: yes
+      become_user: root
+      get_url:
+        url: '{{ splunk_uf_url }}'
+        dest: /tmp/{{ splunk_uf_tgz }}
+        mode: 0644
+        checksum: '{{ splunk_uf_checksum }}'
+    - name: make install dir
+      become: yes
+      become_user: root
+      file:
+        path: '{{ splunk_uf_install_dir }}'
+        state: directory
+        mode: 0755
+    - name: unarchive...
+      become: yes
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: /tmp/{{ splunk_uf_tgz }}
+        dest: '{{ splunk_uf_install_dir }}'
+        creates: '{{ splunk_uf_install_dir }}/splunkforwarder'
+  always:
+    - name: cleanup
+      become: yes
+      become_user: root
+      file:
+        path: /tmp/{{ splunk_uf_tgz }}
+        state: absent
+- name: link
+  become: yes
+  become_user: root
+  file:
+    src: '{{ splunk_uf_install_dir }}/splunkforwarder'
+    dest: '{{ splunk_uf_link }}'
+    state: link
