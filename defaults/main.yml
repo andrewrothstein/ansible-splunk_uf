@@ -6,6 +6,7 @@ splunk_uf_platform: Linux
 splunk_uf_ver: 8.0.2
 splunk_uf_product: universalforwarder
 splunk_uf_shainfix: a7f645ddaf91
+splunk_uf_dl_timeout_secs: 600
 
 splunk_uf_parent_install_dir: /usr/local
 

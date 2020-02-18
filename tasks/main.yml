@@ -15,6 +15,7 @@
         dest: /tmp/{{ splunk_uf_tgz }}
         mode: 0644
         checksum: '{{ splunk_uf_checksum }}'
+        timeout: '{{ splunk_uf_dl_timeout_secs }}'
     - name: make install dir
       become: yes
       become_user: root
