@@ -1,7 +1,9 @@
 ---
 # vars file for splunk_uf
 splunk_uf_tgz: splunkforwarder-{{ splunk_uf_ver }}-{{ splunk_uf_shainfix }}-{{ splunk_uf_platform }}-{{ splunk_uf_architecture }}.tgz
+splunk_uf_tmp_tgz: /tmp/{{ splunk_uf_tgz }}
 splunk_uf_url: '{{ splunk_uf_mirror }}?architecture={{ splunk_uf_architecture}}&platform={{ splunk_uf_platform }}&version={{ splunk_uf_ver }}&product={{ splunk_uf_product }}&filename={{ splunk_uf_tgz }}&wget=true'
 splunk_uf_install_dir: '{{ splunk_uf_parent_install_dir }}/splunkforwarder-{{ splunk_uf_ver }}'
-splunk_uf_link: '{{ splunk_uf_parent_install_dir }}/splunkforwarder'
+splunk_uf_install_subdir: '{{ splunk_uf_install_dir }}/splunkforwarder'
+splunk_uf_link_dir: '{{ splunk_uf_parent_install_dir }}/splunkforwarder'
 splunk_uf_checksum: '{{ splunk_uf_checksums[splunk_uf_ver] }}'

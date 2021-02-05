@@ -1,5 +1,5 @@
 ---
-- name: look for install...
+- name: look for install in {{ splunk_uf_install_dir }}...
   become: yes
   stat:
     path: '{{ splunk_uf_install_dir }}'
@@ -7,41 +7,51 @@
   register: splunk_uf_binary
 - when: not splunk_uf_binary.stat.exists
   block:
-    - name: download...
+    - name: downloading {{ splunk_uf_url }}...
       become: yes
       become_user: root
       get_url:
         url: '{{ splunk_uf_url }}'
-        dest: /tmp/{{ splunk_uf_tgz }}
+        dest: '{{ splunk_uf_tmp_tgz }}'
         mode: 0644
         checksum: '{{ splunk_uf_checksum }}'
         timeout: '{{ splunk_uf_dl_timeout_secs }}'
-    - name: make install dir
+    - name: mkdir {{ splunk_uf_install_dir }}
       become: yes
       become_user: root
       file:
         path: '{{ splunk_uf_install_dir }}'
         state: directory
         mode: 0755
-    - name: unarchive...
+    - name: unarchiving {{ splunk_uf_tmp_tgz }} to {{ splunk_uf_install_dir }}
       become: yes
       become_user: root
       unarchive:
         remote_src: yes
-        src: /tmp/{{ splunk_uf_tgz }}
+        src: '{{ splunk_uf_tmp_tgz }}'
         dest: '{{ splunk_uf_install_dir }}'
-        creates: '{{ splunk_uf_install_dir }}/splunkforwarder'
+        creates: '{{ splunk_uf_install_subdir }}'
   always:
-    - name: cleanup
+    - name: rm {{ splunk_uf_tmp_tgz }}
       become: yes
       become_user: root
       file:
-        path: /tmp/{{ splunk_uf_tgz }}
+        path: '{{ splunk_uf_tmp_tgz }}'
         state: absent
-- name: link
+- name: linking {{ splunk_uf_link_dir }} to {{ splunk_uf_install_subdir }}
   become: yes
   become_user: root
   file:
-    src: '{{ splunk_uf_install_dir }}/splunkforwarder'
-    dest: '{{ splunk_uf_link }}'
+    src: '{{ splunk_uf_install_subdir }}'
+    dest: '{{ splunk_uf_link_dir }}'
     state: link
+- name: add splunk uf binaries to default shell
+  become: yes
+  become_user: root
+  with_items:
+    - f: splunk_uf.sh
+      d: /etc/profile.d
+  template:
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m | default("0644") }}'
