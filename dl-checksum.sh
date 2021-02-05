@@ -22,4 +22,6 @@ dl_ver() {
     printf "  '%s': sha256:%s\n" $ver $(sha256sum $lfile | awk '{print $1}')
 }
 
-dl_ver splunkforwarder universalforwarder 8.0.2 a7f645ddaf91 Linux x86_64
+# https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.1.2&product=universalforwarder&filename=splunkforwarder-8.1.2-545206cc9f70-Linux-x86_64.tgz&wget=true
+
+dl_ver splunkforwarder universalforwarder 8.1.2 545206cc9f70 Linux x86_64

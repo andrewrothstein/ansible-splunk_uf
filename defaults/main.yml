@@ -1,11 +1,11 @@
 ---
 # defaults file for splunk_uf
 splunk_uf_mirror: https://www.splunk.com/bin/splunk/DownloadActivityServlet
-splunk_uf_architecture: x86_64
 splunk_uf_platform: Linux
-splunk_uf_ver: 8.0.2
+splunk_uf_architecture: x86_64
+splunk_uf_ver: 8.1.2
 splunk_uf_product: universalforwarder
-splunk_uf_shainfix: a7f645ddaf91
+splunk_uf_shainfix: 545206cc9f70
 splunk_uf_dl_timeout_secs: 600
 
 splunk_uf_parent_install_dir: /usr/local
@@ -13,3 +13,5 @@ splunk_uf_parent_install_dir: /usr/local
 splunk_uf_checksums:
   # https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=Linux&version=8.0.2&product=universalforwarder&filename=splunkforwarder-8.0.2-a7f645ddaf91-Linux-x86_64.tgz&wget=true
   '8.0.2': sha256:a0b7cfef6951243be0c559b81fd31ccf075e4ba36351b7ba98cde99076ede626
+  # https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=Linux&version=8.1.2&product=universalforwarder&filename=splunkforwarder-8.1.2-545206cc9f70-Linux-x86_64.tgz&wget=true
+  '8.1.2': sha256:4159e7dbc0cc60534ef6be0dce7ad26b45de969b278d2f7830e79399de7add5b
